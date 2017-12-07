@@ -9,7 +9,6 @@
 import urllib
 import bs4
 import re
-import sys
 
 
 #  小说信息配置
@@ -87,8 +86,6 @@ for key in pre_download_names:
     story = story + key + "\n"
     story = story + download_content + "\n"
     print("已下载：( %d / %d ) " % (index, num_cout) + "\r")
-    sys.stdout.write("已下载：( %d / %d ) " % (index, num_cout) + "\r")
-    sys.stdout.flush()
     index += 1
 
 print("%s下载完毕，开始保存文件...." % story_name)
