@@ -89,8 +89,8 @@ for key in pre_download_names:
     print(key + " => " + pre_download_names[key])
 
 
-print("%s下载并保存文件...." % story_name)
-file = open(story_name + '.txt', 'w', encoding='utf-8')
+# print("%s下载并保存文件...." % story_name)
+# file = open(story_name + '.txt', 'w', encoding='utf-8')
 
 #下载每章内容
 for key in pre_download_names:

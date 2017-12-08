@@ -5,6 +5,7 @@
 #功能：
 #   1、整理抓取文字格式
 #   2、排除重复章节
+#   3、kindl优化内容   可以通过email发送到设备浏览
 
 import urllib
 import bs4
@@ -32,6 +33,16 @@ def readContent(download_url):
     soup_text = bs4.BeautifulSoup(str(texts), 'lxml')
     content = soup_text.div.text
     content = content.replace('\xa0' , '')
+
+    #过滤多余广告
+    content = content.replace('手机用户请浏览阅读，更优质的阅读体验。' , '')
+    content = content.replace('请记住本书首发域名：www.biqukan.com。' , '')
+    content = content.replace('笔趣阁手机版阅读网址：m.biqukan.com' , '')
+
+    #针对Kindle读取方式优化段落
+    content = content.replace('。' , '。\r\n')
+    # content = content.replace('？' , '？\r')
+    # content = content.replace('！' , '！\r')
 
     return content
 
@@ -78,17 +89,17 @@ for child in download_soup.dl.children:
 #     print(key + " => " + pre_download_names[key])
 
 
+print("%s下载并保存文件...." % story_name)
+file = open(story_name + '.txt', 'w', encoding='utf-8')
+
 #下载每章内容
 for key in pre_download_names:
-    download_content = ""
     download_content = readContent(pre_download_names[key])
-    story = story + key + "\n"
-    story = story + download_content + "\n"
+    file.write(key + "\r\n")
+    file.write(download_content + "\r\n")
     print("已下载：( %d / %d ) " % (index, num_cout) + "\r")
     index += 1
 
-print("%s下载完毕，开始保存文件...." % story_name)
-file = open(story_name + '.txt', 'w', encoding='utf-8')
-file.write(story)
+
 file.close()
 print("文件保存完毕 => %s.txt." % story_name)
